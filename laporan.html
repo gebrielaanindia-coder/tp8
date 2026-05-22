@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Bahan</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+
+    <style>
+/*
+   ROOT VARIABLES*/
+:root{
+  --red-deep:#8B0000;
+  --red-core:#C0392B;
+  --red-vivid:#E74C3C;
+  --red-light:#FADBD8;
+  --red-xlight:#FEF5F4;
+
+  --gold:#D4A843;
+  --gold-light:#F9EFD7;
+
+  --cream:#FDF6EE;
+  --white:#FFFFFF;
+
+  --text-dark:#1A0A0A;
+  --text-mid:#4A2020;
+  --text-soft:#8B5E5E;
+
+  --border:#EDD8D4;
+
+  --shadow-sm:0 2px 8px rgba(139,0,0,.08);
+  --shadow-md:0 6px 24px rgba(139,0,0,.12);
+
+  --sidebar-w:240px;
+  --topbar-h:62px;
+
+  --radius:12px;
+  --radius-lg:18px;
+
+  --transition:all .25s ease;
+}
+
+/*
+   DARK MODE*/
+[data-theme="dark"]{
+  --cream:#1C0D0D;
+  --white:#2A1111;
+
+  --text-dark:#F5E8E8;
+  --text-mid:#D4A4A4;
+  --text-soft:#A07070;
+
+  --border:#3D1A1A;
+
+  --red-xlight:#2A1010;
+  --gold-light:#2A1F0A;
+
+  --shadow-sm:0 2px 8px rgba(0,0,0,.3);
+  --shadow-md:0 6px 24px rgba(0,0,0,.4);
+}
+
+/*
+   BASE*/
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  overflow-x:hidden;
+
+  font-family:'DM Sans',sans-serif;
+
+  background:var(--cream);
+  color:var(--text-dark);
+
+  transition:background .3s,color .3s;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-family:'Playfair Display',serif;
+}
+
+a{
+  text-decoration:none;
+}
+
+/*
+   SIDEBAR*/
+#sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+
+  width:var(--sidebar-w);
+  height:100vh;
+
+  background:linear-gradient(
+    175deg,
+    var(--red-deep) 0%,
+    #4A0A0A 100%
+  );
+
+  z-index:1000;
+
+  display:flex;
+  flex-direction:column;
+
+  overflow:hidden;
+
+  transition:transform .3s ease;
+}
+
+#sidebar::before{
+  content:'';
+
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.sidebar-brand{
+  padding:22px 20px 16px;
+
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.sidebar-brand .brand-icon{
+  width:38px;
+  height:38px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-bottom:8px;
+
+  border-radius:10px;
+
+  background:var(--gold);
+
+  font-size:18px;
+  color:var(--red-deep);
+}
+
+.sidebar-brand h6{
+  margin:0;
+
+  line-height:1.3;
+
+  font-size:13px;
+  font-weight:700;
+
+  color:#fff;
+}
+
+.sidebar-brand small{
+  color:rgba(255,255,255,.5);
+  font-size:10px;
+}
+
+.sidebar-nav{
+  flex:1;
+
+  padding:12px 0;
+
+  overflow-y:auto;
+}
+
+.sidebar-nav::-webkit-scrollbar{
+  width:3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.2);
+  border-radius:2px;
+}
+
+.nav-item-custom{
+  padding:0 12px;
+  margin-bottom:2px;
+}
+
+.nav-link-custom{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:10px 14px;
+
+  border:none;
+  border-radius:10px;
+
+  background:none;
+
+  text-align:left;
+
+  cursor:pointer;
+
+  color:rgba(255,255,255,.65);
+
+  font-size:13.5px;
+  font-weight:500;
+
+  white-space:nowrap;
+
+  transition:var(--transition);
+}
+
+.nav-link-custom i{
+  width:20px;
+  flex-shrink:0;
+
+  font-size:16px;
+}
+
+.nav-link-custom:hover{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+}
+
+.nav-link-custom.active{
+  background:linear-gradient(
+    135deg,
+    var(--red-vivid),
+    var(--gold)
+  );
+
+  color:#fff;
+
+  font-weight:600;
+
+  box-shadow:0 4px 14px rgba(231,76,60,.4);
+}
+
+.sidebar-footer{
+  padding:16px 12px;
+
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+.dark-toggle{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:10px 14px;
+
+  border:none;
+  border-radius:10px;
+
+  background:none;
+
+  cursor:pointer;
+
+  color:rgba(255,255,255,.65);
+
+  font-size:13.5px;
+  font-weight:500;
+
+  transition:var(--transition);
+}
+
+.dark-toggle:hover{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+}
+
+.dark-toggle i{
+  width:20px;
+  font-size:16px;
+}
+
+/*
+   TOPBAR*/
+#topbar{
+  position:fixed;
+  top:0;
+
+  left:var(--sidebar-w);
+  right:0;
+
+  height:var(--topbar-h);
+
+  z-index:999;
+
+  display:flex;
+  align-items:center;
+  gap:16px;
+
+  padding:0 24px;
+
+  background:var(--white);
+
+  border-bottom:1px solid var(--border);
+
+  transition:background .3s,border-color .3s;
+}
+
+.topbar-toggle{
+  display:none;
+
+  padding:4px;
+
+  border:none;
+  border-radius:8px;
+
+  background:none;
+
+  cursor:pointer;
+
+  color:var(--text-soft);
+
+  font-size:20px;
+
+  transition:var(--transition);
+}
+
+.topbar-toggle:hover{
+  color:var(--red-core);
+  background:var(--red-xlight);
+}
+
+.topbar-title{
+  flex:1;
+
+  font-size:15px;
+  font-weight:700;
+
+  color:var(--text-dark);
+}
+
+.topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.topbar-btn{
+  position:relative;
+
+  padding:6px 8px;
+
+  border:none;
+  border-radius:8px;
+
+  background:none;
+
+  cursor:pointer;
+
+  color:var(--text-soft);
+
+  font-size:18px;
+
+  transition:var(--transition);
+}
+
+.topbar-btn:hover{
+  color:var(--red-core);
+  background:var(--red-xlight);
+}
+
+.badge-notif{
+  position:absolute;
+  top:2px;
+  right:2px;
+
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:var(--red-vivid);
+}
+
+.admin-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:5px 12px 5px 5px;
+
+  border-radius:20px;
+
+  cursor:pointer;
+
+  background:var(--red-xlight);
+}
+
+.admin-avatar{
+  width:30px;
+  height:30px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:linear-gradient(
+    135deg,
+    var(--red-core),
+    var(--red-deep)
+  );
+
+  color:#fff;
+
+  font-size:13px;
+  font-weight:700;
+}
+
+.admin-name{
+  font-size:13px;
+  font-weight:600;
+
+  color:var(--text-dark);
+}
+
+
+/*
+   MAIN CONTENT*/
+
+#main-content{
+  margin-left:var(--sidebar-w);
+  margin-top:var(--topbar-h);
+
+  padding:28px;
+
+  min-height:100vh;
+}#main-content{
+  margin-left:var(--sidebar-w);
+  margin-top:var(--topbar-h);
+
+  min-height:calc(100vh - var(--topbar-h));
+
+  padding:28px;
+
+  transition:margin-left .3s;
+}
+
+.page-section{
+  display:none;
+
+  animation:fadeIn .3s ease;
+}
+
+.page-section.active{
+  display:block;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/*
+   SECTION HEADER*/
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:28px;
+}
+
+.section-title{
+    font-size:34px;
+    font-weight:700;
+    color:var(--text-dark);
+}
+
+.section-title span{
+    color:var(--red-core);
+}
+
+.section-subtitle{
+    margin-top:6px;
+    color:var(--text-soft);
+    font-size:14px;
+}
+
+/*
+   BUTTON*/
+
+.btn-red{
+  border:none;
+
+  background:linear-gradient(
+    135deg,
+    var(--red-vivid),
+    var(--red-deep)
+  );
+
+  color:#fff;
+
+  padding:12px 22px;
+  border-radius:14px;
+
+  font-weight:700;
+  font-size:14px;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  transition:var(--transition);
+}
+
+.btn-red:hover{
+  transform:translateY(-2px);
+
+  box-shadow:0 10px 20px rgba(192,57,43,.25);
+}
+
+.btn-outline-red{
+  border:2px solid var(--red-core);
+
+  background:transparent;
+  color:var(--red-core);
+
+  padding:11px 20px;
+  border-radius:14px;
+
+  font-weight:700;
+  font-size:14px;
+
+  transition:var(--transition);
+}
+
+.btn-outline-red:hover{
+  background:var(--red-xlight);
+}
+
+/*
+   FILTER CARD*/
+
+.form-card{
+  background:var(--white);
+
+  border-radius:var(--radius-lg);
+
+  border:1px solid var(--border);
+
+  padding:24px;
+
+  box-shadow:var(--shadow-sm);
+
+  margin-bottom:28px;
+}
+
+.form-label-custom{
+  font-size:13px;
+  font-weight:700;
+
+  margin-bottom:8px;
+
+  color:var(--text-mid);
+}
+
+.form-control-custom,
+.form-select-custom{
+  width:100%;
+
+  border:1.5px solid var(--border);
+
+  background:#fff;
+
+  padding:13px 16px;
+
+  border-radius:14px;
+
+  font-size:14px;
+
+  transition:var(--transition);
+}
+
+.form-control-custom:focus,
+.form-select-custom:focus{
+  outline:none;
+
+  border-color:var(--red-core);
+
+  box-shadow:0 0 0 4px rgba(192,57,43,.08);
+}
+
+/*
+   SUMMARY CARD*/
+
+.stat-card{
+  background:var(--white);
+
+  border-radius:var(--radius-lg);
+
+  border:1px solid var(--border);
+
+  padding:24px;
+
+  position:relative;
+
+  overflow:hidden;
+
+  box-shadow:var(--shadow-sm);
+
+  transition:var(--transition);
+
+  height:100%;
+}
+
+.stat-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-md);
+}
+
+.stat-card::after{
+  content:'';
+
+  position:absolute;
+  right:-20px;
+  top:-20px;
+
+  width:90px;
+  height:90px;
+
+  border-radius:50%;
+
+  background:var(--red-xlight);
+}
+
+.stat-label{
+  font-size:12px;
+  font-weight:700;
+
+  text-transform:uppercase;
+
+  color:var(--text-soft);
+
+  margin-bottom:10px;
+}
+
+.stat-value{
+  font-size:34px;
+  font-weight:800;
+
+  color:var(--text-dark);
+
+  line-height:1.1;
+}
+
+.stat-sub{
+  margin-top:6px;
+
+  font-size:13px;
+  color:var(--text-soft);
+}
+
+.stat-icon{
+  position:absolute;
+  top:20px;
+  right:20px;
+
+  width:48px;
+  height:48px;
+
+  border-radius:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:22px;
+}
+
+.stat-icon.red{
+  background:var(--red-light);
+  color:var(--red-core);
+}
+
+.stat-icon.gold{
+  background:var(--gold-light);
+  color:var(--gold);
+}
+
+.stat-icon.orange{
+  background:#FFE8D5;
+  color:#D35400;
+}
+
+.stat-icon.green{
+  background:#D5F5E3;
+  color:#239B56;
+}
+
+/*
+   CHART CARD*/
+
+.chart-card{
+  background:var(--white);
+
+  border-radius:var(--radius-lg);
+
+  border:1px solid var(--border);
+
+  padding:24px;
+
+  box-shadow:var(--shadow-sm);
+
+  height:100%;
+}
+
+.chart-card h6{
+  margin-bottom:18px;
+
+  font-size:16px;
+  font-weight:700;
+
+  color:var(--text-dark);
+}
+
+/*
+   TABLE*/
+
+.table-card{
+  background:var(--white);
+
+  border-radius:var(--radius-lg);
+
+  border:1px solid var(--border);
+
+  overflow:hidden;
+
+  box-shadow:var(--shadow-sm);
+}
+
+.table-card-header{
+  padding:20px 24px;
+
+  border-bottom:1px solid var(--border);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.table-card-title{
+  font-size:17px;
+  font-weight:700;
+
+  color:var(--text-dark);
+}
+
+.table{
+  margin:0;
+}
+
+.table thead th{
+  background:var(--red-xlight);
+
+  color:var(--text-mid);
+
+  border:none;
+
+  padding:16px 18px;
+
+  font-size:13px;
+  font-weight:800;
+
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.table tbody td{
+  padding:16px 18px;
+
+  border-bottom:1px solid #f1dfdc;
+
+  vertical-align:middle;
+
+  font-size:14px;
+}
+
+.table tbody tr:hover{
+  background:#fff8f7;
+}
+
+/*
+   BADGE*/
+
+.badge-fresh{
+  background:#D5F5E3;
+  color:#239B56;
+
+  padding:6px 12px;
+  border-radius:30px;
+
+  font-size:12px;
+  font-weight:700;
+}
+
+.badge-lama{
+  background:#FDEBD0;
+  color:#CA6F1E;
+
+  padding:6px 12px;
+  border-radius:30px;
+
+  font-size:12px;
+  font-weight:700;
+}
+
+.badge-kritis{
+  background:#FADBD8;
+  color:#922B21;
+
+  padding:6px 12px;
+  border-radius:30px;
+
+  font-size:12px;
+  font-weight:700;
+}
+
+/*
+   RESPONSIVE*/
+
+@media(max-width:991px){
+
+  #sidebar{
+    transform:translateX(-100%);
+  }
+
+  .main-content{
+    margin-left:0;
+    padding:20px;
+  }
+
+  .section-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .section-title{
+    font-size:28px;
+  }
+
+  .table-card{
+    overflow-x:auto;
+  }
+
+}
+
+@media(max-width:576px){
+
+  .main-content{
+    padding:16px;
+  }
+
+  .section-title{
+    font-size:24px;
+  }
+
+  .stat-value{
+    font-size:26px;
+  }
+
+  .form-card,
+  .chart-card,
+  .table-card{
+    border-radius:18px;
+  }
+
+}
+
+    </style>
+
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside id="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="brand-icon">☕</div>
+      <h6>
+        TE.CO Stock<br>
+        Inventory System
+      </h6>
+    </div>
+    <nav class="sidebar-nav">
+
+     <!--Dashboard-->
+      <div class="nav-item-custom">
+        <a href="dashboard.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-grid-1x2"></i>
+          <span>Dashboard</span>
+        </a>
+      </div>
+
+     <!--Data Bahan-->
+      <div class="nav-item-custom">
+        <a href="databahan.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-box-seam"></i>
+          <span>Data Bahan</span>
+        </a>
+      </div>
+
+     <!--Pemakaian Bahan-->
+      <div class="nav-item-custom">
+        <a href="pemakaian.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-clipboard-check"></i>
+          <span>Pemakaian Bahan</span>
+        </a>
+      </div>
+
+     <!--Riwayat Pemakaian-->
+      <div class="nav-item-custom">
+        <a href="riwayat.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-clock-history"></i>
+          <span>Riwayat Pemakaian</span>
+        </a>
+      </div>
+
+     <!--Laporan-->
+      <div class="nav-item-custom">
+        <a href="laporan.html"
+          class="nav-link-custom active d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-file-earmark-bar-graph"></i>
+          <span>Laporan</span>
+        </a>
+      </div>
+
+     <!--Prediksi-->
+      <div class="nav-item-custom">
+        <a href="prediksi.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-graph-up-arrow"></i>
+          <span>Prediksi Pemakaian</span>
+        </a>
+      </div>
+
+     <!--About-->
+      <div class="nav-item-custom">
+        <a href="about.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-info-circle"></i>
+          <span>About</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!--TOPBAR-->
+  <header id="topbar">
+    <button class="topbar-toggle" id="sidebarToggle">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="topbar-title">Coffee Stock Inventory System</div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" title="Notifikasi" id="notifBtn">
+        <i class="bi bi-bell"></i>
+        <span class="badge-notif"></span>
+      </button>
+      <div class="admin-badge">
+        <div class="admin-avatar">A</div>
+        <span class="admin-name">Admin</span>
+        <i class="bi bi-chevron-down" style="font-size:10px; color:var(--text-soft);"></i>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+      <section class="page-section active">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Laporan <span>Stok</span></div>
+          <div style="font-size:13px; color:var(--text-soft);">Laporan & analisis inventaris</div>
+        </div>
+        <button class="btn-red" onclick="printLaporan()">
+          <i class="bi bi-printer"></i> Cetak Laporan
+        </button>
+      </div>
+
+      <!--Period filter-->
+      <div class="form-card mb-4">
+        <div class="row g-2 align-items-end">
+          <div class="col-md-3">
+            <label class="form-label-custom">Periode</label>
+            <select class="form-select-custom" id="laporanPeriode">
+              <option value="bulan">Bulan Ini</option>
+              <option value="minggu">Minggu Ini</option>
+              <option value="semua">Semua Data</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn-red" id="btnGenerateLaporan">Generate</button>
+          </div>
+        </div>
+      </div>
+
+      <!--Summary-->
+      <div class="row g-3 mb-4" id="laporanSummary">
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-label">Total Pemakaian</div>
+            <div class="stat-value" id="lapTotalPemakaian">0</div>
+            <div class="stat-sub">transaksi</div>
+            <div class="stat-icon red"><i class="bi bi-receipt"></i></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-label">Bahan Terbanyak Dipakai</div>
+            <div class="stat-value" style="font-size:20px;" id="lapTopBahan">-</div>
+            <div class="stat-sub">bahan teratas</div>
+            <div class="stat-icon gold"><i class="bi bi-trophy"></i></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-label">Stok Kritis</div>
+            <div class="stat-value" id="lapStokKritis">0</div>
+            <div class="stat-sub">bahan perlu restock</div>
+            <div class="stat-icon orange"><i class="bi bi-exclamation-triangle"></i></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="stat-label">Total Bahan Aktif</div>
+            <div class="stat-value" id="lapTotalBahan">0</div>
+            <div class="stat-sub">jenis bahan</div>
+            <div class="stat-icon green"><i class="bi bi-boxes"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="chart-card">
+            <h6><i class="bi bi-pie-chart me-2" style="color:var(--red-core);"></i>Pemakaian per Bahan</h6>
+            <canvas id="chartLaporanBar" height="200"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="chart-card">
+            <h6><i class="bi bi-pie-chart-fill me-2" style="color:var(--red-core);"></i>Distribusi Stok</h6>
+            <canvas id="chartLaporanPie" height="200"></canvas>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-card">
+            <div class="table-card-header">
+              <span class="table-card-title">Detail Stok Semua Bahan</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr><th>No</th><th>Nama Bahan</th><th>Kategori</th><th>Stok Saat Ini</th><th>Satuan</th><th>Kondisi</th><th>Status</th></tr>
+                </thead>
+                <tbody id="tableLaporanBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

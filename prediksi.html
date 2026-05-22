@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Bahan</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+
+    <style>
+      /*ROOT VARIABLES*/
+      :root{
+        --red-deep:#8B0000;
+        --red-core:#C0392B;
+        --red-vivid:#E74C3C;
+        --red-light:#FADBD8;
+        --red-xlight:#FEF5F4;
+
+        --gold:#D4A843;
+        --gold-light:#F9EFD7;
+
+        --cream:#FDF6EE;
+        --white:#FFFFFF;
+
+        --text-dark:#1A0A0A;
+        --text-mid:#4A2020;
+        --text-soft:#8B5E5E;
+
+        --border:#EDD8D4;
+
+        --shadow-sm:0 2px 8px rgba(139,0,0,.08);
+        --shadow-md:0 6px 24px rgba(139,0,0,.12);
+
+        --sidebar-w:240px;
+        --topbar-h:62px;
+
+        --radius:12px;
+        --radius-lg:18px;
+
+        --transition:all .25s ease;
+      }
+
+      /*
+        DARK MODE*/
+      [data-theme="dark"]{
+        --cream:#1C0D0D;
+        --white:#2A1111;
+
+        --text-dark:#F5E8E8;
+        --text-mid:#D4A4A4;
+        --text-soft:#A07070;
+
+        --border:#3D1A1A;
+
+        --red-xlight:#2A1010;
+        --gold-light:#2A1F0A;
+
+        --shadow-sm:0 2px 8px rgba(0,0,0,.3);
+        --shadow-md:0 6px 24px rgba(0,0,0,.4);
+      }
+
+      /*
+        BASE*/
+      *,
+      *::before,
+      *::after{
+        box-sizing:border-box;
+      }
+
+      body{
+        margin:0;
+        overflow-x:hidden;
+
+        font-family:'DM Sans',sans-serif;
+
+        background:var(--cream);
+        color:var(--text-dark);
+
+        transition:background .3s,color .3s;
+      }
+
+      h1,h2,h3,h4,h5,h6{
+        font-family:'Playfair Display',serif;
+      }
+
+      a{
+        text-decoration:none;
+      }
+
+      /*
+        SIDEBAR*/
+      #sidebar{
+        position:fixed;
+        top:0;
+        left:0;
+
+        width:var(--sidebar-w);
+        height:100vh;
+
+        background:linear-gradient(
+          175deg,
+          var(--red-deep) 0%,
+          #4A0A0A 100%
+        );
+
+        z-index:1000;
+
+        display:flex;
+        flex-direction:column;
+
+        overflow:hidden;
+
+        transition:transform .3s ease;
+      }
+
+      #sidebar::before{
+        content:'';
+
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+      }
+
+      .sidebar-brand{
+        padding:22px 20px 16px;
+
+        border-bottom:1px solid rgba(255,255,255,.1);
+      }
+
+      .sidebar-brand .brand-icon{
+        width:38px;
+        height:38px;
+
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+
+        margin-bottom:8px;
+
+        border-radius:10px;
+
+        background:var(--gold);
+
+        font-size:18px;
+        color:var(--red-deep);
+      }
+
+      .sidebar-brand h6{
+        margin:0;
+
+        line-height:1.3;
+
+        font-size:13px;
+        font-weight:700;
+
+        color:#fff;
+      }
+
+      .sidebar-brand small{
+        color:rgba(255,255,255,.5);
+        font-size:10px;
+      }
+
+      .sidebar-nav{
+        flex:1;
+
+        padding:12px 0;
+
+        overflow-y:auto;
+      }
+
+      .sidebar-nav::-webkit-scrollbar{
+        width:3px;
+      }
+
+      .sidebar-nav::-webkit-scrollbar-thumb{
+        background:rgba(255,255,255,.2);
+        border-radius:2px;
+      }
+
+      .nav-item-custom{
+        padding:0 12px;
+        margin-bottom:2px;
+      }
+
+      .nav-link-custom{
+        width:100%;
+
+        display:flex;
+        align-items:center;
+        gap:10px;
+
+        padding:10px 14px;
+
+        border:none;
+        border-radius:10px;
+
+        background:none;
+
+        text-align:left;
+
+        cursor:pointer;
+
+        color:rgba(255,255,255,.65);
+
+        font-size:13.5px;
+        font-weight:500;
+
+        white-space:nowrap;
+
+        transition:var(--transition);
+      }
+
+      .nav-link-custom i{
+        width:20px;
+        flex-shrink:0;
+
+        font-size:16px;
+      }
+
+      .nav-link-custom:hover{
+        background:rgba(255,255,255,.08);
+        color:#fff;
+      }
+
+      .nav-link-custom.active{
+        background:linear-gradient(
+          135deg,
+          var(--red-vivid),
+          var(--gold)
+        );
+
+        color:#fff;
+
+        font-weight:600;
+
+        box-shadow:0 4px 14px rgba(231,76,60,.4);
+      }
+
+      .sidebar-footer{
+        padding:16px 12px;
+
+        border-top:1px solid rgba(255,255,255,.1);
+      }
+
+      .dark-toggle{
+        width:100%;
+
+        display:flex;
+        align-items:center;
+        gap:10px;
+
+        padding:10px 14px;
+
+        border:none;
+        border-radius:10px;
+
+        background:none;
+
+        cursor:pointer;
+
+        color:rgba(255,255,255,.65);
+
+        font-size:13.5px;
+        font-weight:500;
+
+        transition:var(--transition);
+      }
+
+      .dark-toggle:hover{
+        background:rgba(255,255,255,.08);
+        color:#fff;
+      }
+
+      .dark-toggle i{
+        width:20px;
+        font-size:16px;
+      }
+
+      /*
+        TOPBAR*/
+      #topbar{
+        position:fixed;
+        top:0;
+
+        left:var(--sidebar-w);
+        right:0;
+
+        height:var(--topbar-h);
+
+        z-index:999;
+
+        display:flex;
+        align-items:center;
+        gap:16px;
+
+        padding:0 24px;
+
+        background:var(--white);
+
+        border-bottom:1px solid var(--border);
+
+        transition:background .3s,border-color .3s;
+      }
+
+      .topbar-toggle{
+        display:none;
+
+        padding:4px;
+
+        border:none;
+        border-radius:8px;
+
+        background:none;
+
+        cursor:pointer;
+
+        color:var(--text-soft);
+
+        font-size:20px;
+
+        transition:var(--transition);
+      }
+
+      .topbar-toggle:hover{
+        color:var(--red-core);
+        background:var(--red-xlight);
+      }
+
+      .topbar-title{
+        flex:1;
+
+        font-size:15px;
+        font-weight:700;
+
+        color:var(--text-dark);
+      }
+
+      .topbar-actions{
+        display:flex;
+        align-items:center;
+        gap:10px;
+      }
+
+      .topbar-btn{
+        position:relative;
+
+        padding:6px 8px;
+
+        border:none;
+        border-radius:8px;
+
+        background:none;
+
+        cursor:pointer;
+
+        color:var(--text-soft);
+
+        font-size:18px;
+
+        transition:var(--transition);
+      }
+
+      .topbar-btn:hover{
+        color:var(--red-core);
+        background:var(--red-xlight);
+      }
+
+      .badge-notif{
+        position:absolute;
+        top:2px;
+        right:2px;
+
+        width:8px;
+        height:8px;
+
+        border-radius:50%;
+
+        background:var(--red-vivid);
+      }
+
+      .admin-badge{
+        display:flex;
+        align-items:center;
+        gap:8px;
+
+        padding:5px 12px 5px 5px;
+
+        border-radius:20px;
+
+        cursor:pointer;
+
+        background:var(--red-xlight);
+      }
+
+      .admin-avatar{
+        width:30px;
+        height:30px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:50%;
+
+        background:linear-gradient(
+          135deg,
+          var(--red-core),
+          var(--red-deep)
+        );
+
+        color:#fff;
+
+        font-size:13px;
+        font-weight:700;
+      }
+
+      .admin-name{
+        font-size:13px;
+        font-weight:600;
+
+        color:var(--text-dark);
+      }
+
+
+      /*
+        MAIN CONTENT*/
+
+      #main-content{
+        margin-left:var(--sidebar-w);
+        margin-top:var(--topbar-h);
+
+        padding:28px;
+
+        min-height:100vh;
+      }#main-content{
+        margin-left:var(--sidebar-w);
+        margin-top:var(--topbar-h);
+
+        min-height:calc(100vh - var(--topbar-h));
+
+        padding:28px;
+
+        transition:margin-left .3s;
+      }
+
+      .page-section{
+        display:none;
+
+        animation:fadeIn .3s ease;
+      }
+
+      .page-section.active{
+        display:block;
+      }
+
+      @keyframes fadeIn{
+        from{
+          opacity:0;
+          transform:translateY(8px);
+        }
+
+        to{
+          opacity:1;
+          transform:translateY(0);
+        }
+      }
+
+      /*
+        SECTION HEADER*/
+
+      .section-header{
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+
+          margin-bottom:28px;
+      }
+
+      .section-title{
+          font-size:34px;
+          font-weight:700;
+          color:var(--text-dark);
+      }
+
+      .section-title span{
+          color:var(--red-core);
+      }
+
+      .section-subtitle{
+          margin-top:6px;
+          color:var(--text-soft);
+          font-size:14px;
+      }
+
+
+      /*
+        BUTTON*/
+
+      .btn-red{
+        border:none;
+
+        background:linear-gradient(
+          135deg,
+          var(--red-vivid),
+          var(--red-deep)
+        );
+
+        color:#fff;
+
+        padding:12px 22px;
+        border-radius:14px;
+
+        font-weight:700;
+        font-size:14px;
+
+        display:flex;
+        align-items:center;
+        gap:10px;
+
+        transition:var(--transition);
+      }
+
+      .btn-red:hover{
+        transform:translateY(-2px);
+
+        box-shadow:0 10px 20px rgba(192,57,43,.25);
+      }
+
+      /*
+        FORM FILTER*/
+
+      .form-card{
+        background:var(--white);
+
+        border-radius:var(--radius-lg);
+
+        border:1px solid var(--border);
+
+        padding:24px;
+
+        box-shadow:var(--shadow-sm);
+      }
+
+      .form-label-custom{
+        font-size:13px;
+        font-weight:700;
+
+        margin-bottom:8px;
+
+        color:var(--text-mid);
+      }
+
+      .form-control-custom,
+      .form-select-custom{
+        width:100%;
+
+        border:1.5px solid var(--border);
+
+        background:#fff;
+
+        padding:13px 16px;
+
+        border-radius:14px;
+
+        font-size:14px;
+
+        transition:var(--transition);
+      }
+
+      .form-control-custom:focus,
+      .form-select-custom:focus{
+        outline:none;
+
+        border-color:var(--red-core);
+
+        box-shadow:0 0 0 4px rgba(192,57,43,.08);
+      }
+
+      /*
+        TABLE CARD*/
+
+      .table-card{
+        background:var(--white);
+
+        border-radius:var(--radius-lg);
+
+        border:1px solid var(--border);
+
+        overflow:hidden;
+
+        box-shadow:var(--shadow-sm);
+
+        height:100%;
+      }
+
+      .table-card-header{
+        padding:20px 24px;
+
+        border-bottom:1px solid var(--border);
+
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+
+        gap:12px;
+        flex-wrap:wrap;
+      }
+
+      .table-card-title{
+        font-size:17px;
+        font-weight:700;
+
+        color:var(--text-dark);
+      }
+
+      .table{
+        margin:0;
+      }
+
+      .table thead th{
+        background:var(--red-xlight);
+
+        color:var(--text-mid);
+
+        border:none;
+
+        padding:16px 18px;
+
+        font-size:13px;
+        font-weight:800;
+
+        text-transform:uppercase;
+        letter-spacing:.4px;
+
+        white-space:nowrap;
+      }
+
+      .table tbody td{
+        padding:16px 18px;
+
+        border-bottom:1px solid #f1dfdc;
+
+        vertical-align:middle;
+
+        font-size:14px;
+      }
+
+      .table tbody tr:hover{
+        background:#fff8f7;
+      }
+
+      /*
+        PREDIKSI HIGHLIGHT*/
+
+      .prediksi-highlight tbody td:nth-child(4){
+        font-weight:800;
+        color:var(--red-core);
+      }
+
+      .prediksi-highlight tbody td:nth-child(7){
+        font-weight:700;
+      }
+
+      /*
+        REKOMENDASI BADGE*/
+
+      .badge-aman{
+        background:#D5F5E3;
+        color:#239B56;
+
+        padding:6px 12px;
+
+        border-radius:30px;
+
+        font-size:12px;
+        font-weight:700;
+      }
+
+      .badge-restock{
+        background:#FADBD8;
+        color:#922B21;
+
+        padding:6px 12px;
+
+        border-radius:30px;
+
+        font-size:12px;
+        font-weight:700;
+      }
+
+      .badge-warning{
+        background:#FDEBD0;
+        color:#CA6F1E;
+
+        padding:6px 12px;
+
+        border-radius:30px;
+
+        font-size:12px;
+        font-weight:700;
+      }
+
+      /*
+        CHART CARD*/
+
+      .chart-card{
+        background:var(--white);
+
+        border-radius:var(--radius-lg);
+
+        border:1px solid var(--border);
+
+        padding:24px;
+
+        box-shadow:var(--shadow-sm);
+
+        height:100%;
+      }
+
+      .chart-card h6{
+        margin-bottom:18px;
+
+        font-size:16px;
+        font-weight:700;
+
+        color:var(--text-dark);
+      }
+
+      /*
+        INFO CARD*/
+
+      .info-prediksi{
+        background:linear-gradient(
+          135deg,
+          #fff8f7,
+          var(--red-xlight)
+        );
+
+        border:1px solid var(--border);
+
+        border-radius:20px;
+
+        padding:22px;
+      }
+
+      .info-prediksi strong{
+        color:var(--text-dark);
+      }
+
+      .info-prediksi p{
+        margin-top:10px;
+
+        line-height:1.7;
+
+        font-size:13px;
+
+        color:var(--text-soft);
+      }
+
+      /*
+        EMPTY STATE*/
+
+      .empty-state{
+        padding:50px 20px;
+
+        text-align:center;
+
+        color:var(--text-soft);
+      }
+
+      .empty-state i{
+        font-size:50px;
+
+        opacity:.3;
+
+        margin-bottom:12px;
+      }
+
+      .empty-state p{
+        margin:0;
+
+        font-size:14px;
+      }
+
+      /*
+        RESPONSIVE*/
+
+      @media(max-width:991px){
+
+        .table-card{
+          overflow-x:auto;
+        }
+
+      }
+
+      @media(max-width:768px){
+
+        .table thead th,
+        .table tbody td{
+          padding:14px 12px;
+
+          font-size:13px;
+        }
+
+        .chart-card,
+        .form-card,
+        .table-card{
+          border-radius:18px;
+        }
+
+      }
+
+      @media(max-width:576px){
+
+        .btn-red{
+          width:100%;
+          justify-content:center;
+        }
+
+      }
+
+    </style>
+
+</head>
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside id="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="brand-icon">☕</div>
+      <h6>
+        TE.CO Stock<br>
+        Inventory System
+      </h6>
+    </div>
+    <nav class="sidebar-nav">
+
+      <!--Dashboard-->
+      <div class="nav-item-custom">
+        <a href="dashboard.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-grid-1x2"></i>
+          <span>Dashboard</span>
+        </a>
+      </div>
+
+      <!--Data Bahan-->
+      <div class="nav-item-custom">
+        <a href="databahan.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-box-seam"></i>
+          <span>Data Bahan</span>
+        </a>
+      </div>
+
+      <!--Pemakaian Bahan-->
+      <div class="nav-item-custom">
+        <a href="pemakaian.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-clipboard-check"></i>
+          <span>Pemakaian Bahan</span>
+        </a>
+      </div>
+
+      <!--Riwayat Pemakaian-->
+      <div class="nav-item-custom">
+        <a href="riwayat.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-clock-history"></i>
+          <span>Riwayat Pemakaian</span>
+        </a>
+      </div>
+
+      <!--Laporan-->
+      <div class="nav-item-custom">
+        <a href="laporan.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-file-earmark-bar-graph"></i>
+          <span>Laporan</span>
+        </a>
+      </div>
+
+      <!--Prediksi-->
+      <div class="nav-item-custom">
+        <a href="prediksi.html"
+          class="nav-link-custom active d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-graph-up-arrow"></i>
+          <span>Prediksi Pemakaian</span>
+        </a>
+      </div>
+
+      <!--About-->
+      <div class="nav-item-custom">
+        <a href="about.html"
+          class="nav-link-custom d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-info-circle"></i>
+          <span>About</span>
+        </a>
+      </div>
+
+    </nav>
+
+  </aside>
+
+  <!--TOPBAR-->
+  <header id="topbar">
+    <button class="topbar-toggle" id="sidebarToggle">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="topbar-title">Coffee Stock Inventory System</div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" title="Notifikasi" id="notifBtn">
+        <i class="bi bi-bell"></i>
+        <span class="badge-notif"></span>
+      </button>
+      <div class="admin-badge">
+        <div class="admin-avatar">A</div>
+        <span class="admin-name">Admin</span>
+        <i class="bi bi-chevron-down" style="font-size:10px; color:var(--text-soft);"></i>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+      <section class="page-section active">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Prediksi <span>Pemakaian</span></div>
+          <div style="font-size:13px; color:var(--text-soft);">Estimasi kebutuhan bulan depan</div>
+        </div>
+      </div>
+
+      <div class="form-card mb-4">
+        <div class="row g-2 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label-custom">Pilih Bahan</label>
+            <select class="form-select-custom" id="prediksiFilterBahan">
+              <option value="">Semua Bahan</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label-custom">Prediksi Untuk</label>
+            <select class="form-select-custom" id="prediksiPeriode">
+              <option value="1">Bulan Depan</option>
+              <option value="3">3 Bulan ke Depan</option>
+              <option value="6">6 Bulan ke Depan</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn-red" id="btnPrediksi">Hitung Prediksi</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="table-card">
+            <div class="table-card-header">
+              <span class="table-card-title">Hasil Prediksi Kebutuhan</span>
+              <span style="font-size:12px; color:var(--text-soft);">Berdasarkan rata-rata pemakaian 3 bulan terakhir</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table mb-0 prediksi-highlight">
+                <thead>
+                  <tr><th>No</th><th>Nama Bahan</th><th>Rata-rata Pemakaian</th><th>Prediksi Kebutuhan</th><th>Satuan</th><th>Stok Saat Ini</th><th>Rekomendasi</th></tr>
+                </thead>
+                <tbody id="tablePrediksiBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="chart-card">
+            <h6><i class="bi bi-graph-up me-2" style="color:var(--red-core);"></i>Trend Prediksi</h6>
+            <canvas id="chartPrediksi" height="260"></canvas>
+          </div>
+          <div class="form-card mt-3" style="background: var(--red-xlight);">
+            <div style="font-size:13px; color:var(--text-mid);">
+              <i class="bi bi-info-circle-fill me-2" style="color:var(--red-core);"></i>
+              <strong>Cara Kerja Prediksi</strong>
+              <p style="font-size:12px; margin-top:8px; color:var(--text-soft);">
+                Prediksi dihitung berdasarkan <b>rata-rata pemakaian 3 bulan terakhir</b>. Semakin banyak data riwayat, semakin akurat prediksinya.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
